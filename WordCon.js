@@ -47,7 +47,6 @@ function CreateSecretWord() {
     }
     // now this is us creating the secret word, we'll create thew constructor over in the secretwordletters.js and then ship it back over to the main program
     var string = Words.Words[Math.floor((Math.random() * Words.Words.length) + 1)]
-    console.log("Selected word: " + string)
     var CurrentSWord = new SecretWordLetters()
     for (var i = 0; i < string.length; i++) {
         var result = string.slice(i, i + 1)
@@ -59,9 +58,8 @@ function CreateSecretWord() {
         //SecretWord.push(PlaceholderArray)
 
     }
-    console.log(CurrentSWord.Letter)
-    console.log(CurrentSWord.isRevealed)
-    console.log(CurrentSWord.Letter.length)
+    
+    
     var Output = ""
     for (var i = 0; i < CurrentSWord.Letter.length; i++) {
         Output = Output + " _"
@@ -86,6 +84,8 @@ function CreateSecretWord() {
         }
         if (Match === false) {
             LifeCounter--
+            console.log("Nope, no '"+GuessInput+"'s")
+            console.log("Lives Remaining:"+ LifeCounter )
         }
         // making thing to output _ or a letter
         var Output = "";
@@ -97,7 +97,7 @@ function CreateSecretWord() {
                 if (UnderScoreCounter === CurrentSWord.Letter.length) {
                     StopPlaying = true;
                     WinStreak++
-                    console.log("why did this trip")
+                    
 
                 }
             } else {
@@ -152,7 +152,9 @@ function CreateSecretWord() {
 
             })
         } else {
-
+            WinStreak=0;
+            console.log("")
+            PlayAgain()
         }
 
     }
