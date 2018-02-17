@@ -11,7 +11,9 @@ To get started:
 
     Close Game | Close the script.
 
-Things to know *Your winstreak is output after each game is completed and your remaining lives is displayed after each mistake. *After a victory or game over you will have the option to quit or continue
+Things to know 
+*Your winstreak is output after each game is completed and your remaining lives is displayed after each mistake. 
+*After a victory or game over you will have the option to quit or continue
 
 Error Handling
 
