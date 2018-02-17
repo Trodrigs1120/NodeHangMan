@@ -1,9 +1,10 @@
 
 
 To get started:
-
-    Run Main.js
+Run Main.js
     Select your menu option using the arrow keys
+
+    
 
     Start Game | Moves you to the Categories menu where you can select a category with varying difficulties from Easy to Hard.
 
