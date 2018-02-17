@@ -1,3 +1,5 @@
+// this should not have existed
+
 var inquirer = require("inquirer");
 var WinStreak = 0;
 var WordBank = "";
