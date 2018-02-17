@@ -24,9 +24,9 @@ var FoodWordArray = ["corn", "tacos", "chili", "pizza", "cheese", "burrito"]
 function ChangeWordBank() {
     inquirer.prompt([{
         type: "list",
-        choices: ["Countries", "States", "Foods"],
+        choices: ["Food", "States", "Countries"],
         name: "choice",
-        message: "Food= Easiest, States=Medimum Countries = Default & Hardest"
+        message: "Food is the Easiest, States are Medimum and Countries are the hardest category"
     }, ]).then(function(user) {
 
         Selection = user.choice;
@@ -41,9 +41,9 @@ function CreateSecretWord() {
     if (Selection === "Countries") {
         var Words = new WordBank("Countries", CountriesWordArray);
     } else if (Selection === "States") {
-        var Words = new WordBank("Countries", StatesWordArray);
-    } else if (Selection === "Foods") {
-        var Words = new WordBank("Countries", FoodWordArray);
+        var Words = new WordBank("States", StatesWordArray);
+    } else if (Selection === "Food") {
+        var Words = new WordBank("Food", FoodWordArray);
     }
     // now this is us creating the secret word, we'll create thew constructor over in the secretwordletters.js and then ship it back over to the main program
     var string = Words.Words[Math.floor((Math.random() * Words.Words.length) + 1)]
@@ -69,6 +69,65 @@ function CreateSecretWord() {
     
     LetsPlayAGame()
 
+   
+    function LetsPlayAGame() {
+        var GuessInput;
+        StopPlaying = false;
+        
+        GuessLetters()
+
+    }
+
+    function GuessLetters() {
+        if (LifeCounter > 0) {
+            inquirer.prompt([{
+                type: "input",
+                name: "guess",
+                message: "Pick a letter!"
+            }, ]).then(function(user) {
+                
+                if (user.guess==""){
+                    console.log("Please input a valid letter")
+                    GuessLetters()
+                    
+                } else {
+                FixedInput = user.guess.toLowerCase()
+
+                // can add a split here if I have time
+                for (var i = 0; i < RemainingLetters.length; i++) {
+                    if (FixedInput == RemainingLetters[i]) {
+                        console.log("guessing the letter: " + RemainingLetters[i])
+                        console.log("")
+                        RemainingLetters[i] = " "
+                        // Variable to pass this value to be checked against secret word
+
+                        GuessInput = FixedInput
+                        
+                        break;
+                    }
+                    if (i === 25) {
+                        console.log("You've already used the letter " + user.guess)
+                        // need to add a condition for gett ing the letter wrong
+                    }
+                }
+                
+                CheckSecretWord()
+                if (StopPlaying === false) {
+                    GuessLetters()
+                } else {
+                    console.log("Yay you did it!!")
+                    console.log("Current Winstreak:" + WinStreak)
+                    PlayAgain()
+                }
+            }
+            })
+        } else {
+            WinStreak=0;
+            console.log("")
+            PlayAgain()
+        }
+
+    }
     function CheckSecretWord() {
         var UnderScoreCounter = 0;
         var Match = false;
@@ -77,7 +136,8 @@ function CreateSecretWord() {
             if (GuessInput == CurrentSWord.Letter[i] && CurrentSWord.isRevealed[i] == false) {
                 CurrentSWord.isRevealed[i] = true;
                 Match = true;
-                console.log("matched with " + CurrentSWord.Letter[i])
+                console.log("matched with the letter: " + CurrentSWord.Letter[i])
+                console.log("")
 
             }
 
@@ -85,7 +145,7 @@ function CreateSecretWord() {
         if (Match === false) {
             LifeCounter--
             console.log("Nope, no '"+GuessInput+"'s")
-            console.log("Lives Remaining:"+ LifeCounter )
+            console.log("Lives Remaining: "+ LifeCounter )
         }
         // making thing to output _ or a letter
         var Output = "";
@@ -108,58 +168,8 @@ function CreateSecretWord() {
         console.log(Output)
     }
 
-    function LetsPlayAGame() {
-        var GuessInput;
-        StopPlaying = false;
-        
-        GuessLetters()
-
-    }
-
-    function GuessLetters() {
-        if (LifeCounter > 0) {
-            inquirer.prompt([{
-                type: "input",
-                name: "guess",
-                message: "Pick a letter!"
-            }, ]).then(function(user) {
-                FixedInput = user.guess
-                // can add a split here if I have time
-                for (var i = 0; i < RemainingLetters.length; i++) {
-                    if (FixedInput == RemainingLetters[i]) {
-                        console.log("guessing: " + RemainingLetters[i])
-                        RemainingLetters[i] = " "
-                        // Variable to pass this value to be checked against secret word
-
-                        GuessInput = FixedInput
-                        console.log(GuessInput)
-                        break;
-                    }
-                    if (i === 25) {
-                        console.log("You've already used the letter " + user.guess)
-                        // need to add a condition for gett ing the letter wrong
-                    }
-                }
-                console.log("Letter selected: " + GuessInput)
-                CheckSecretWord()
-                if (StopPlaying === false) {
-                    GuessLetters()
-                } else {
-                    console.log("Yay you did it!!")
-                    console.log("Current Winstreak:" + WinStreak)
-                    PlayAgain()
-                }
-
-            })
-        } else {
-            WinStreak=0;
-            console.log("")
-            PlayAgain()
-        }
-
-    }
-
 }
+
 
 function PlayAgain() {
     inquirer.prompt([{
@@ -172,6 +182,7 @@ function PlayAgain() {
         Selection = user.choice;
         if (Selection === "Yes") {
             RemainingLetters = RemainingLettersSource
+            LifeCounter = 7;
             ChangeWordBank()
         } else {
             console.log("adios mi amigo")
