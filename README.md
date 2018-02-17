@@ -15,7 +15,7 @@ Things to know *Your winstreak is output after each game is completed and your r
 
 Error Handling
 
-    You can type Upper or Lower case letters
+    You can type upper or lower case letters
     If you put a blank input for a letter it will reprompt you for a letter
     If you enter more than one character when selecting a letter it will not guess anything but will also not use up one of your remaining guesses.
 
